@@ -27,6 +27,7 @@
 <img src="https://ia.wampi.ru/2020/10/25/TESTY_GLAVN.jpg" width="300" />
 
 Вид экрана во время прохождения теста.
+
 <img src="https://ia.wampi.ru/2020/10/25/TESTY_SLAID.jpg" width="300"/>
 
 Вид экрана при завершении.
