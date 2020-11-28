@@ -3,12 +3,9 @@ package ru.easyspace.spacelaunch;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import ru.easyspace.spacelaunch.launches.UpLaunchesFragment;
 import ru.easyspace.spacelaunch.rockets.RocketsFragment;
 import ru.easyspace.spacelaunch.spacefoto.SpaceFotoFragment;
