@@ -22,7 +22,6 @@ public class SpacePictureFragment extends Fragment {
     private ImageView imageSpace;
     private TextView titleText;
     private TextView explorationText;
-    private Button ApiButton;
     private SpacePictureViewModule mViewModule;
 
     @Nullable
@@ -39,7 +38,6 @@ public class SpacePictureFragment extends Fragment {
         imageSpace = view.findViewById(R.id.spaceImageview);
         titleText = view.findViewById(R.id.titleTextview);
         explorationText = view.findViewById(R.id.explorationTextview);
-        ApiButton = view.findViewById(R.id.APIbutton);
         mViewModule=new ViewModelProvider(getActivity()).get(SpacePictureViewModule.class);
         mViewModule.getSpacePicture().observe(this.getViewLifecycleOwner(), new Observer<SpacePictureJSON>() {
             @Override
@@ -51,13 +49,9 @@ public class SpacePictureFragment extends Fragment {
                 SpacePictureFragment.this.explorationText.setText(spacePictureJSON.explanation);
             }
         });
-        ApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModule.requestPicture();
 
-            }
-        });
-
+        if(mViewModule.getSpacePicture().getValue()==null){
+             mViewModule.requestPicture();
+        }
     }
 }

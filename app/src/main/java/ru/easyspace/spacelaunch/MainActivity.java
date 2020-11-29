@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(UpLaunchesFragment.newInstance());
                     mItemId=R.id.page_launches;
                     return true;
-                case R.id.page_space_foto:
+                case R.id.page_space_picture:
                     loadFragment(new SpacePictureFragment());
-                    mItemId=R.id.page_space_foto;
+                    mItemId=R.id.page_space_picture;
                     return true;
                 case R.id.page_rockets:
                     loadFragment(RocketsFragment.newInstance());

@@ -29,13 +29,7 @@
                 android:id="@+id/explorationTextview"
                 android:layout_below="@id/titleTextview"
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="getAPI"
-                android:id="@+id/APIbutton"
-                android:layout_below="@id/explorationTextview"
-                />
+
         </RelativeLayout>
     </ScrollView>
 
