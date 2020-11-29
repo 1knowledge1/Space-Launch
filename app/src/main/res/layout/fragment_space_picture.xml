@@ -8,11 +8,21 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="date"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/dateTextview"
+
+                />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
                 android:id="@+id/spaceImageview"
                 android:scaleType="fitCenter"
+                android:layout_below="@id/dateTextview"
                 >
 
             </ImageView>
@@ -20,15 +30,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="title"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"
                 android:id="@+id/titleTextview"
                 android:layout_below="@id/spaceImageview"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="copyright"
+                android:textSize="10sp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/copyrightTextview"
+                android:layout_below="@id/titleTextview"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="explanation"
                 android:id="@+id/explorationTextview"
-                android:layout_below="@id/titleTextview"
+                android:layout_below="@id/copyrightTextview"
                 />
 
         </RelativeLayout>

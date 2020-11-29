@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,12 +17,18 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ru.easyspace.spacelaunch.R;
 
 public class SpacePictureFragment extends Fragment {
     private ImageView imageSpace;
     private TextView titleText;
     private TextView explorationText;
+    private TextView dateText;
+    private TextView copyrightText;
     private SpacePictureViewModule mViewModule;
 
     @Nullable
@@ -38,13 +45,30 @@ public class SpacePictureFragment extends Fragment {
         imageSpace = view.findViewById(R.id.spaceImageview);
         titleText = view.findViewById(R.id.titleTextview);
         explorationText = view.findViewById(R.id.explorationTextview);
+        dateText=view.findViewById(R.id.dateTextview);
+        copyrightText=view.findViewById(R.id.copyrightTextview);
         mViewModule=new ViewModelProvider(getActivity()).get(SpacePictureViewModule.class);
         mViewModule.getSpacePicture().observe(this.getViewLifecycleOwner(), new Observer<SpacePictureJSON>() {
             @Override
             public void onChanged(SpacePictureJSON spacePictureJSON) {
+                if(spacePictureJSON==null){
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(),
+                            "Ошибка загрузки. Проверьте подключение к сети.", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
                 Glide.with(SpacePictureFragment.this)
                         .load(spacePictureJSON.url)
                         .into(SpacePictureFragment.this.imageSpace);
+                SimpleDateFormat apidateformat=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat picturedateformat=new SimpleDateFormat("MMMMMM dd,yyyy");
+                try {
+                    Date pictureData = apidateformat.parse(spacePictureJSON.date);
+                    SpacePictureFragment.this.dateText.setText(picturedateformat.format(pictureData));
+                } catch (ParseException e){
+                    SpacePictureFragment.this.dateText.setText("wrong date format");
+                }
+                SpacePictureFragment.this.copyrightText.setText(spacePictureJSON.copyright);
                 SpacePictureFragment.this.titleText.setText(spacePictureJSON.title);
                 SpacePictureFragment.this.explorationText.setText(spacePictureJSON.explanation);
             }

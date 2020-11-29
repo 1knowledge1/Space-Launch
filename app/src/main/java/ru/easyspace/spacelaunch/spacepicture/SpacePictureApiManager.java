@@ -43,7 +43,7 @@ public class SpacePictureApiManager {
 
             @Override
             public void onFailure(Call<SpacePictureJSON> call, Throwable t) {
-
+                SpacePicture.postValue(null);
             }
         });
     }
