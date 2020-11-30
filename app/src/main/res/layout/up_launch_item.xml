@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/launch_image"
+        android:layout_width="135dp"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        tools:background="@color/black"
+        android:contentDescription="@string/image_description" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/launch_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/launch_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Falcon Heavy 9 Bocks 5" />
+
+        <TextView
+            android:id="@+id/rocket_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="Falcon 9 Block 5" />
+
+        <TextView
+            android:id="@+id/agency_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="SpaceX" />
+
+        <TextView
+            android:id="@+id/pad_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="SLC-40" />
+
+        <TextView
+            android:id="@+id/pad_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="USA" />
+
+        <TextView
+            android:id="@+id/start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="20 Oct 2020" />
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp"
+            tools:text="19:08:42" />
+
+    </LinearLayout>
+
+</RelativeLayout>

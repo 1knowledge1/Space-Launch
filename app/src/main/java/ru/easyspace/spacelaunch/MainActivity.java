@@ -21,19 +21,19 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.page_test:
                     loadFragment(TestFragment.newInstance());
-                    mItemId=R.id.page_test;
+                    mItemId = R.id.page_test;
                     return true;
                 case R.id.page_launches:
-                    loadFragment(UpLaunchesFragment.newInstance());
-                    mItemId=R.id.page_launches;
+                    loadFragment(new UpLaunchesFragment());
+                    mItemId = R.id.page_launches;
                     return true;
                 case R.id.page_space_picture:
                     loadFragment(new SpacePictureFragment());
-                    mItemId=R.id.page_space_picture;
+                    mItemId = R.id.page_space_picture;
                     return true;
                 case R.id.page_rockets:
                     loadFragment(RocketsFragment.newInstance());
-                    mItemId=R.id.page_rockets;
+                    mItemId = R.id.page_rockets;
                     return true;
             }
             return false;
@@ -54,15 +54,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        if(savedInstanceState==null){
+        if (savedInstanceState==null) {
            navigation.setSelectedItemId(R.id.page_launches);
-        }else{
+        } else {
            navigation.setSelectedItemId(savedInstanceState.getInt("SelectedItem"));
         }
     }
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("SelectedItem",mItemId);
+        outState.putInt("SelectedItem", mItemId);
     }
 }
