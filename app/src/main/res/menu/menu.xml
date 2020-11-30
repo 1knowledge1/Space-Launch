@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_page_launches"
         android:title="@string/page_launches_ic_text"/>
     <item
-        android:id="@+id/page_space_foto"
+        android:id="@+id/page_space_picture"
         android:enabled="true"
         android:icon="@drawable/ic_page_space_foto"
         android:title="@string/page_space_foto_ic_text"/>
