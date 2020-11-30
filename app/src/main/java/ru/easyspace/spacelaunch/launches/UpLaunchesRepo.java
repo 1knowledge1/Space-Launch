@@ -28,7 +28,7 @@ public class UpLaunchesRepo {
     private final static MutableLiveData<List<UpcomingLaunch>> mLaunches = new MutableLiveData<>();
 
     static {
-        mLaunches.setValue(Collections.emptyList());
+        mLaunches.setValue(Collections.<UpcomingLaunch>emptyList());
     }
 
     private LaunchLibraryAPI launchAPI;
