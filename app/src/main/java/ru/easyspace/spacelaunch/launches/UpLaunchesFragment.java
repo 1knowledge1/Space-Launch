@@ -54,7 +54,7 @@ public class UpLaunchesFragment extends Fragment {
                 if (upcomingLaunches != null ) {
                     adapter.setLaunches(upcomingLaunches);
                 } else {
-                    Toast.makeText(getContext(),
+                    Toast.makeText(getActivity().getApplicationContext(),
                             "Ошибка загрузки. Проверьте подключение к сети.",
                             Toast.LENGTH_LONG)
                             .show();

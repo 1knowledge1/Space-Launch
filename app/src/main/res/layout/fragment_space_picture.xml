@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" >
+
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
+
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
+
             <TextView
+                android:id="@+id/dateTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="date"
+                tools:text="date"
                 android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/dateTextview"
+                android:layout_centerHorizontal="true" />
 
-                />
             <ImageView
+                android:id="@+id/spaceImageview"
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
-                android:id="@+id/spaceImageview"
                 android:scaleType="fitCenter"
-                android:layout_below="@id/dateTextview"
-                >
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/dateTextview" />
 
-            </ImageView>
             <TextView
+                android:id="@+id/titleTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="title"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/titleTextview"
                 android:layout_below="@id/spaceImageview"
-                />
+                tools:text="title" />
+
             <TextView
+                android:id="@+id/copyrightTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="copyright"
                 android:textSize="10sp"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/copyrightTextview"
                 android:layout_below="@id/titleTextview"
-                />
+                tools:text="copyright" />
+
             <TextView
+                android:id="@+id/explorationTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="explanation"
-                android:id="@+id/explorationTextview"
                 android:layout_below="@id/copyrightTextview"
-                />
+                tools:text="explanation" />
 
         </RelativeLayout>
+
     </ScrollView>
 
 </FrameLayout>
