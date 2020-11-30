@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">SpaceLaunch</string>
-    <string name="page_test_ic_text">Тесты</string>
-    <string name="page_launches_ic_text">Запуски</string>
-    <string name="page_space_foto_ic_text">Космофото</string>
-    <string name="page_rockets_ic_text">Ракеты</string>
-</resources>
