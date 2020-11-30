@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(TestFragment.newInstance());
                     return true;
                 case R.id.page_launches:
-                    loadFragment(UpLaunchesFragment.newInstance());
+                    loadFragment(new UpLaunchesFragment());
                     return true;
                 case R.id.page_space_foto:
                     loadFragment(SpaceFotoFragment.newInstance());
