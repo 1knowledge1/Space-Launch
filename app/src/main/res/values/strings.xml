@@ -5,4 +5,5 @@
     <string name="page_space_foto_ic_text">Космофото</string>
     <string name="page_rockets_ic_text">Ракеты</string>
     <string name="image_description">Launch picture</string>
+    <string name="space_pic_content_description">Space picture</string>
 </resources>

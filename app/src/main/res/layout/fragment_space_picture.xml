@@ -27,7 +27,8 @@
                 android:layout_height="400dp"
                 android:scaleType="fitCenter"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/dateTextview" />
+                android:layout_below="@id/dateTextview"
+                android:contentDescription="@string/space_pic_content_description"/>
 
             <TextView
                 android:id="@+id/titleTextview"
@@ -52,6 +53,7 @@
                 android:id="@+id/explorationTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
                 android:layout_below="@id/copyrightTextview"
                 tools:text="explanation" />
 
