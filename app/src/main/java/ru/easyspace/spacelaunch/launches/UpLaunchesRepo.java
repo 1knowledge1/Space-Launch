@@ -1,5 +1,6 @@
 package ru.easyspace.spacelaunch.launches;
 
+import android.app.Application;
 import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,11 +12,15 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import ru.easyspace.spacelaunch.launches.database.UpLaunchDAO;
+import ru.easyspace.spacelaunch.RoomDatabase;
 import ru.easyspace.spacelaunch.launches.launchLibraryAPI.LaunchLibraryAPI;
 import ru.easyspace.spacelaunch.launches.launchLibraryAPI.UpcomingLaunchPlain;
 import ru.easyspace.spacelaunch.launches.launchLibraryAPI.WrapperUpcomingLaunches;
@@ -33,11 +38,11 @@ public class UpLaunchesRepo {
 
     private LaunchLibraryAPI launchAPI;
     private int LIMIT = 30;
-    // TODO: BD
-    private List<UpcomingLaunch> cache = new ArrayList<>();
+    private UpLaunchDAO launchDAO;
 
-    public UpLaunchesRepo() {
+    public UpLaunchesRepo(Application application) {
         launchAPI = ApiRepo.getInstance().getLaunchAPI();
+        launchDAO = RoomDatabase.getINSTANCE(application).upLaunchDAO();
     }
 
     public LiveData<List<UpcomingLaunch>> getLaunches() {
@@ -50,8 +55,9 @@ public class UpLaunchesRepo {
             @Override
             public void onResponse(Call<WrapperUpcomingLaunches> call, Response<WrapperUpcomingLaunches> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    cache = transform(response.body());
-                    mLaunches.postValue(cache);
+                    List<UpcomingLaunch> launches = transform(response.body());
+                    mLaunches.postValue(launches);
+                    insert(launches);
                     Log.d("Network", "Response code " + response.code());
                 } else {
                     Log.e("Network", "Response code " + response.code());
@@ -67,11 +73,27 @@ public class UpLaunchesRepo {
         });
     }
 
-    public boolean isCacheEmpty() {
-        return cache.isEmpty();
+    public void getFromDatabase(onReadDatabaseListener listener) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<UpcomingLaunch> launches = launchDAO.getLaunches();
+                listener.onReadAll(launches);
+            }
+        });
     }
-    public void getFromCache() {
-        mLaunches.postValue(cache);
+
+    public void update(List<UpcomingLaunch> launches) {
+        mLaunches.postValue(launches);
+    }
+
+    public void insert(List<UpcomingLaunch> launches) {
+        RoomDatabase.getExecutor().execute(() -> {
+            for (UpcomingLaunch launch : launches) {
+                launchDAO.insert(launch);
+            }
+        });
     }
 
     private List<UpcomingLaunch> transform (WrapperUpcomingLaunches wrapper) {
@@ -89,7 +111,14 @@ public class UpLaunchesRepo {
     }
 
     private UpcomingLaunch map (UpcomingLaunchPlain launchPlain) throws ParseException {
-        String title = UpcomingLaunch.TITLE;
+        String TITLE = "Unknown mission";
+        String ROCKET = "Unknown rocket";
+        String AGENCY = "Unknown agency";
+        String PAD = "Unknown pad";
+        String LOCATION = "Unknown location";
+        String START_DATE = "Unknown start date";
+        String START_TIME = "Unknown start time";
+        String title = TITLE;
         if (launchPlain.name != null) {
             title = launchPlain.name;
         }
@@ -99,7 +128,7 @@ public class UpLaunchesRepo {
             }
         }
 
-        String rocket = UpcomingLaunch.ROCKET;
+        String rocket = ROCKET;
         if (launchPlain.rocketPlain != null) {
             if (launchPlain.rocketPlain.configuration != null) {
                 if (launchPlain.rocketPlain.configuration.name != null) {
@@ -108,15 +137,15 @@ public class UpLaunchesRepo {
             }
         }
 
-        String agency = UpcomingLaunch.AGENCY;
+        String agency = AGENCY;
         if (launchPlain.launchServiceProviderPlain != null) {
             if (launchPlain.launchServiceProviderPlain.name != null) {
                 agency = launchPlain.launchServiceProviderPlain.name;
             }
         }
 
-        String pad = UpcomingLaunch.PAD;
-        String location = UpcomingLaunch.LOCATION;
+        String pad = PAD;
+        String location = LOCATION;
         if (launchPlain.padPlain != null) {
             if (launchPlain.padPlain.name != null) {
                 pad = launchPlain.padPlain.name;
@@ -130,8 +159,8 @@ public class UpLaunchesRepo {
             }
         }
 
-        String startDate = UpcomingLaunch.START_DATE;
-        String startTime = UpcomingLaunch.START_TIME;
+        String startDate = START_DATE;
+        String startTime = START_TIME;
         if (launchPlain.windowStart != null) {
             Date mDate = apiDateFormat.parse(launchPlain.windowStart);
             startDate = dateFormat.format(mDate);
@@ -145,5 +174,9 @@ public class UpLaunchesRepo {
 
         return new UpcomingLaunch(title, rocket, agency, pad,
                 location, startDate, startTime, image);
+    }
+
+    public interface onReadDatabaseListener {
+        void onReadAll(List<UpcomingLaunch> launches);
     }
 }
