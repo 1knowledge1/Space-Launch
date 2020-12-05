@@ -6,4 +6,11 @@
     <string name="page_rockets_ic_text">Ракеты</string>
     <string name="image_description">Launch picture</string>
     <string name="space_pic_content_description">Space picture</string>
+    <string name="default_launch_title">Unknown mission</string>
+    <string name="default_launch_rocket">Unknown rocket</string>
+    <string name="default_launch_agency">Unknown agency</string>
+    <string name="default_launch_pad">Unknown pad</string>
+    <string name="default_launch_location">Unknown location</string>
+    <string name="default_launch_date">Unknown start date</string>
+    <string name="default_launch_time">Unknown start time</string>
 </resources>

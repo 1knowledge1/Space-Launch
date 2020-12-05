@@ -95,13 +95,41 @@ public class UpLaunchesFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull UpLaunchesViewHolder holder, int position) {
             final UpcomingLaunch launch = mLaunches.get(position);
-            holder.mTitle.setText(launch.getTitle());
-            holder.mRocket.setText(launch.getRocket());
-            holder.mAgency.setText(launch.getAgency());
-            holder.mPad.setText(launch.getPad());
-            holder.mLocation.setText(launch.getLocation());
-            holder.mDate.setText(launch.getStartDate());
-            holder.mTime.setText(launch.getStartTime());
+            if (launch.getTitle() != null) {
+                holder.mTitle.setText(launch.getTitle());
+            } else {
+                holder.mTitle.setText(R.string.default_launch_title);
+            }
+            if (launch.getRocket() != null) {
+                holder.mRocket.setText(launch.getRocket());
+            } else {
+                holder.mRocket.setText(R.string.default_launch_rocket);
+            }
+            if (launch.getAgency() != null) {
+                holder.mAgency.setText(launch.getAgency());
+            } else {
+                holder.mAgency.setText(R.string.default_launch_agency);
+            }
+            if (launch.getPad() != null) {
+                holder.mPad.setText(launch.getPad());
+            } else {
+                holder.mPad.setText(R.string.default_launch_pad);
+            }
+            if (launch.getLocation() != null) {
+                holder.mLocation.setText(launch.getLocation());
+            } else {
+                holder.mLocation.setText(R.string.default_launch_location);
+            }
+            if (launch.getStartDate() != null) {
+                holder.mDate.setText(launch.getStartDate());
+            } else {
+                holder.mDate.setText(R.string.default_launch_date);
+            }
+            if (launch.getStartTime() != null) {
+                holder.mTime.setText(launch.getStartTime());
+            } else {
+                holder.mTime.setText(R.string.default_launch_time);
+            }
             Glide.with(getContext())
                     .load(launch.getImage())
                     .centerCrop()

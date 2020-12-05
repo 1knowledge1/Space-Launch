@@ -111,24 +111,14 @@ public class UpLaunchesRepo {
     }
 
     private UpcomingLaunch map (UpcomingLaunchPlain launchPlain) throws ParseException {
-        String TITLE = "Unknown mission";
-        String ROCKET = "Unknown rocket";
-        String AGENCY = "Unknown agency";
-        String PAD = "Unknown pad";
-        String LOCATION = "Unknown location";
-        String START_DATE = "Unknown start date";
-        String START_TIME = "Unknown start time";
-        String title = TITLE;
-        if (launchPlain.name != null) {
-            title = launchPlain.name;
-        }
+        String title = launchPlain.name;
         if (launchPlain.missionPlain != null) {
             if (launchPlain.missionPlain.name != null) {
                 title = launchPlain.missionPlain.name;
             }
         }
 
-        String rocket = ROCKET;
+        String rocket = null;
         if (launchPlain.rocketPlain != null) {
             if (launchPlain.rocketPlain.configuration != null) {
                 if (launchPlain.rocketPlain.configuration.name != null) {
@@ -137,15 +127,15 @@ public class UpLaunchesRepo {
             }
         }
 
-        String agency = AGENCY;
+        String agency = null;
         if (launchPlain.launchServiceProviderPlain != null) {
             if (launchPlain.launchServiceProviderPlain.name != null) {
                 agency = launchPlain.launchServiceProviderPlain.name;
             }
         }
 
-        String pad = PAD;
-        String location = LOCATION;
+        String pad = null;
+        String location = null;
         if (launchPlain.padPlain != null) {
             if (launchPlain.padPlain.name != null) {
                 pad = launchPlain.padPlain.name;
@@ -159,8 +149,8 @@ public class UpLaunchesRepo {
             }
         }
 
-        String startDate = START_DATE;
-        String startTime = START_TIME;
+        String startDate = null;
+        String startTime = null;
         if (launchPlain.windowStart != null) {
             Date mDate = apiDateFormat.parse(launchPlain.windowStart);
             startDate = dateFormat.format(mDate);
