@@ -65,7 +65,7 @@ public class UpLaunchesFragment extends Fragment {
 
         upLaunchesViewModel = new ViewModelProvider(getActivity())
                 .get(UpLaunchesViewModel.class);
-        upLaunchesViewModel.refresh();
+        upLaunchesViewModel.getFromDatabase();
         upLaunchesViewModel.getLaunches().observe(getViewLifecycleOwner(), observer);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

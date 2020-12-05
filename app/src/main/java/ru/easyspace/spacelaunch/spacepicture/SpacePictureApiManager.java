@@ -10,20 +10,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 
 public class SpacePictureApiManager {
+
     private static final SpacePictureApiManager INSTANCE = new SpacePictureApiManager();
     public static final String BASE_URL="https://api.nasa.gov/planetary/";
     static SpacePictureApiManager getInstance() {
         return INSTANCE;
     }
 
-
     public interface SpacePictureApi{
         @GET("apod?api_key=DEMO_KEY")
         Call<SpacePictureJSON> getPicture();
     }
-
-
-
 
     public void performSpacePictureRequest(final MutableLiveData<SpacePictureJSON> SpacePicture){
         Retrofit retrofit=new Retrofit.Builder()
