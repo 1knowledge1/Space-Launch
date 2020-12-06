@@ -1,26 +1,35 @@
 package ru.easyspace.spacelaunch.launches;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "up_launch_table")
 public class UpcomingLaunch {
-    public static final String TITLE = "Untitled mission";
-    public static final String ROCKET = "Unknown rocket";
-    public static final String AGENCY = "Unknown agency";
-    public static final String PAD = "Unknown pad";
-    public static final String LOCATION = "Unknown location";
-    public static final String START_DATE = "Unknown start date";
-    public static final String START_TIME = "Unknown start time";
-
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "title")
     private String mTitle;
+    @ColumnInfo(name = "rocket")
     private String mRocket;
+    @ColumnInfo(name = "agency")
     private String mAgency;
+    @ColumnInfo(name = "pad")
     private String mPad;
+    @ColumnInfo(name = "location")
     private String mLocation;
+    @ColumnInfo(name = "startDate")
     private String mStartDate;
+    @ColumnInfo(name = "startTime")
     private String mStartTime;
+    @ColumnInfo(name = "image")
     private String mImage;
 
     public UpcomingLaunch() {}
 
+    @Ignore
     public UpcomingLaunch (String title, String rocket, String agency, String pad,
                            String location, String startDate, String startTime, String image) {
         mTitle = title;
