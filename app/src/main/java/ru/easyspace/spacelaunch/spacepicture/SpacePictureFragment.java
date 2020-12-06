@@ -74,7 +74,7 @@ public class SpacePictureFragment extends Fragment {
         });
 
         if (mViewModule.getSpacePicture().getValue() == null) {
-             mViewModule.requestPicture();
+             mViewModule.updatePicture();
         }
     }
 }

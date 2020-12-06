@@ -10,12 +10,14 @@ import java.util.concurrent.Executors;
 
 import ru.easyspace.spacelaunch.launches.UpcomingLaunch;
 import ru.easyspace.spacelaunch.launches.database.UpLaunchDAO;
+import ru.easyspace.spacelaunch.spacepicture.SpacePictureJSON;
+import ru.easyspace.spacelaunch.spacepicture.database.SpacePictureDAO;
 
-@Database(entities = {UpcomingLaunch.class}, version = 1, exportSchema = false)
+@Database(entities = {UpcomingLaunch.class, SpacePictureJSON.class}, version = 1, exportSchema = false)
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     public abstract UpLaunchDAO upLaunchDAO();
-
+    public abstract SpacePictureDAO spacePictureDAO();
     private static volatile RoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREAD = 1;
     static final ExecutorService databaseWriteExecutor =
