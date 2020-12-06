@@ -57,6 +57,7 @@ public class UpLaunchesRepo {
                 if (response.isSuccessful() && response.body() != null) {
                     List<UpcomingLaunch> launches = transform(response.body());
                     mLaunches.postValue(launches);
+                    delete();
                     insert(launches);
                     Log.d("Network", "Response code " + response.code());
                 } else {
@@ -88,11 +89,17 @@ public class UpLaunchesRepo {
         mLaunches.postValue(launches);
     }
 
-    public void insert(List<UpcomingLaunch> launches) {
+    private void insert(List<UpcomingLaunch> launches) {
         RoomDatabase.getExecutor().execute(() -> {
             for (UpcomingLaunch launch : launches) {
                 launchDAO.insert(launch);
             }
+        });
+    }
+
+    private void delete() {
+        RoomDatabase.getExecutor().execute(() -> {
+            launchDAO.deleteAll();
         });
     }
 
