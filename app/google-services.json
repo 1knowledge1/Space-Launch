@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "323278892553",
+    "project_id": "easyspace-spacelaunch",
+    "storage_bucket": "easyspace-spacelaunch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323278892553:android:1302279327311a3216d2d8",
+        "android_client_info": {
+          "package_name": "ru.easyspace.spacelaunch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323278892553-s275s5lccbnfrm3ieep7rp8akq4mkhd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJT_MbReyMKZkwSdngC8R6x6HoTnm_4ik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323278892553-s275s5lccbnfrm3ieep7rp8akq4mkhd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

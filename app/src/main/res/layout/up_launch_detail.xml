@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/launch_detail_image"
+                android:layout_width="150dp"
+                android:layout_height="250dp"
+                android:layout_alignParentStart="true"
+                tools:background="@color/black"
+                android:contentDescription="@string/image_description" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/launch_detail_image"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/launch_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Falcon Heavy 9 Bocks 5" />
+
+                <TextView
+                    android:id="@+id/detail_rocket_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="Falcon 9 Block 5" />
+
+                <TextView
+                    android:id="@+id/detail_agency_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="SpaceX" />
+
+                <TextView
+                    android:id="@+id/detail_pad_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="SLC-40" />
+
+                <TextView
+                    android:id="@+id/detail_pad_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="USA" />
+
+                <TextView
+                    android:id="@+id/detail_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="20 Oct 2020" />
+
+                <TextView
+                    android:id="@+id/detail_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textSize="14sp"
+                    tools:text="19:08:42" />
+
+                <Button
+                    android:id="@+id/detail_watch_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/watch_button" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="24sp"
+            android:text="@string/launch_detail_description"/>
+
+        <TextView
+            android:id="@+id/launch_detail_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="text\ntext\ntext\ntext"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textSize="24sp"
+            android:text="@string/launch_detail_location"/>
+
+        <ImageView
+            android:id="@+id/launch_detail_location_image"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@color/black"
+            android:contentDescription="@string/map_description" />
+
+    </LinearLayout>
+
+</ScrollView>
