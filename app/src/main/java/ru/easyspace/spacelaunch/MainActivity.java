@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements UpLaunchesFragmen
                     swapFragments(R.id.page_space_picture, "Picture", new SpacePictureFragment());
                     return true;
                 case R.id.page_rockets:
-                    swapFragments(R.id.page_rockets, "Rockets", RocketsFragment.newInstance());
+                    swapFragments(R.id.page_rockets, "Rockets", new RocketsFragment());
                     return true;
             }
             return false;

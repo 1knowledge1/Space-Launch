@@ -48,10 +48,11 @@ public class SpacePictureDBManager {
 
     }
     public void InsertPictureToDataBase(SpacePictureJSON SpacePicture){
-        Log.d("DB_UPDATE","DB");
+       
         RoomDatabase.getExecutor().execute(new Runnable() {
             @Override
             public void run() {
+                mSpacePictureDAO.deleteAll();
                 mSpacePictureDAO.insert(SpacePicture);
             }
         });
