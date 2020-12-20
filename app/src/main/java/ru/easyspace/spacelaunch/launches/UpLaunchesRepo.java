@@ -119,9 +119,13 @@ public class UpLaunchesRepo {
 
     private UpcomingLaunch map (UpcomingLaunchPlain launchPlain) throws ParseException {
         String title = launchPlain.name;
+        String description = null;
         if (launchPlain.missionPlain != null) {
             if (launchPlain.missionPlain.name != null) {
                 title = launchPlain.missionPlain.name;
+            }
+            if (launchPlain.missionPlain.description != null) {
+                description = launchPlain.missionPlain.description;
             }
         }
 
@@ -143,9 +147,13 @@ public class UpLaunchesRepo {
 
         String pad = null;
         String location = null;
+        String mapImage = null;
         if (launchPlain.padPlain != null) {
             if (launchPlain.padPlain.name != null) {
                 pad = launchPlain.padPlain.name;
+            }
+            if (launchPlain.padPlain.mapImage != null) {
+                mapImage = launchPlain.padPlain.mapImage;
             }
             if (launchPlain.padPlain.locationPlain != null) {
                 if (launchPlain.padPlain.locationPlain.name != null) {
@@ -170,7 +178,8 @@ public class UpLaunchesRepo {
         }
 
         return new UpcomingLaunch(title, rocket, agency, pad,
-                location, startDate, startTime, image);
+                location, startDate, startTime, image, description,
+                mapImage);
     }
 
     public interface onReadDatabaseListener {
