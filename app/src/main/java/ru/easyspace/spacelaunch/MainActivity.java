@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                     mItemId = R.id.page_space_picture;
                     return true;
                 case R.id.page_rockets:
-                    loadFragment(RocketsFragment.newInstance());
+                    loadFragment(new RocketsFragment());
                     mItemId = R.id.page_rockets;
                     return true;
             }
