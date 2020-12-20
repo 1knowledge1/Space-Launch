@@ -1,5 +1,6 @@
 package ru.easyspace.spacelaunch.launches;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,6 +31,21 @@ public class UpLaunchesFragment extends Fragment {
 
     private UpLaunchesViewModel upLaunchesViewModel;
     private SwipeRefreshLayout swipeContainer;
+    private OnStartDetailedLaunchFragmentListener startListener;
+
+    public interface OnStartDetailedLaunchFragmentListener {
+        void startDetailedLaunchFragment(UpcomingLaunch launch);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnStartDetailedLaunchFragmentListener) {
+            startListener = (OnStartDetailedLaunchFragmentListener) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implement OnStartFragmentListener");
+        }
+    }
 
     @Nullable
     @Override
@@ -44,7 +60,7 @@ public class UpLaunchesFragment extends Fragment {
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.up_launches_swipe_container);
         RecyclerView recycler = view.findViewById(R.id.up_launches_recycler);
-        final UpLaunchesAdapter adapter = new UpLaunchesAdapter();
+        final UpLaunchesAdapter adapter = new UpLaunchesAdapter(startListener);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -76,9 +92,20 @@ public class UpLaunchesFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        startListener = null;
+    }
+
     private class UpLaunchesAdapter extends RecyclerView.Adapter<UpLaunchesViewHolder> {
 
         private List<UpcomingLaunch> mLaunches = new ArrayList<>();
+        private OnStartDetailedLaunchFragmentListener startListener;
+
+        UpLaunchesAdapter(OnStartDetailedLaunchFragmentListener listener) {
+            startListener = listener;
+        }
 
         public void setLaunches(List<UpcomingLaunch> launches) {
             mLaunches = launches;
@@ -135,6 +162,9 @@ public class UpLaunchesFragment extends Fragment {
                     .centerCrop()
                     .placeholder(new ColorDrawable(Color.BLACK))
                     .into(holder.mImage);
+            holder.itemView.setOnClickListener(view -> {
+                startListener.startDetailedLaunchFragment(launch);
+            });
         }
 
         @Override

@@ -13,4 +13,11 @@
     <string name="default_launch_location">Unknown location</string>
     <string name="default_launch_date">Unknown start date</string>
     <string name="default_launch_time">Unknown start time</string>
+    <string name="launch_detail_description">Описание</string>
+    <string name="launch_detail_location">Расположение</string>
+    <string name="watch_button">Watch</string>
+    <string name="map_description">Map. Pad location</string>
+    <string name="test_image_description">test_image</string>
+    <string name="next">Следующий</string>
+    <string name="end_test">Завершить</string>
 </resources>
