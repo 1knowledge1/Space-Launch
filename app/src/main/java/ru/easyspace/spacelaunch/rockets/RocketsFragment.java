@@ -38,10 +38,10 @@ public class RocketsFragment extends Fragment {
     String savedSearchedText;
     @Override
     public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
             savedSearchedText=savedInstanceState.getString("SearchText");
         }
-        super.onCreate(savedInstanceState);
     }
     @Nullable
     @Override
