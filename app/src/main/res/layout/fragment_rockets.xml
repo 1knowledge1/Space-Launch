@@ -9,7 +9,7 @@
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Поиск"
+        android:hint="@string/search"
         android:ems="10" />
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     android:id="@+id/rockets_swipe_container"

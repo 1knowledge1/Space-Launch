@@ -75,7 +75,11 @@
             android:layout_marginTop="2dp"
             android:textSize="14sp"
             tools:text="19:08:42" />
-
+        <RadioButton
+            android:id="@+id/notific"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification"/>
     </LinearLayout>
 
 </RelativeLayout>
