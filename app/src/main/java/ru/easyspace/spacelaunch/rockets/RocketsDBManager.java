@@ -55,6 +55,36 @@ public class RocketsDBManager {
 
 
     }
+    public void  getRocketsFromDatabaseSearch(String searchtext,RocketsDBManager.rocketDBCallback callback){
+        RoomDatabase.getExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+                List<RocketsDB> rocketsDBList=mRocketsDAO.getRocketsSearch('%'+searchtext+'%');
+                if(rocketsDBList==null||rocketsDBList.isEmpty()){
+                    mainThreadHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onFailure();
+                        }
+                    });
+                }else{
+                    List<RocketJSON> rocketJSONList=new ArrayList<RocketJSON>();
+                    for(RocketsDB i:rocketsDBList){
+                        rocketJSONList.add(new RocketJSON(i));
+                    }
+                    mainThreadHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess(rocketJSONList);
+                        }
+                    });
+                }
+            }
+        });
+
+
+    }
     public void InsertRocketsToDataBase(List<RocketJSON> Rockets){
 
         RoomDatabase.getExecutor().execute(new Runnable() {

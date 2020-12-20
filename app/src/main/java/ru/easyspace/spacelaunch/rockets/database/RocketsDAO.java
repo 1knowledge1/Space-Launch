@@ -18,7 +18,10 @@ public interface RocketsDAO {
 
     @Query("SELECT * FROM rockets_table")
     List<RocketsDB> getRockets();
-
+    @Query("SELECT * FROM rockets_table WHERE Rname LIKE :searchtext OR Family LIKE :searchtext" +
+            " OR serialNumber LIKE :searchtext OR details LIKE :searchtext " +
+            "OR firstLaunchDate LIKE :searchtext OR lastLaunchDate LIKE :searchtext")
+    List<RocketsDB> getRocketsSearch(String searchtext);
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(RocketsDB Rocket);
 

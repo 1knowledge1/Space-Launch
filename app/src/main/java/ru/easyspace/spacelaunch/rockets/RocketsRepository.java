@@ -39,6 +39,21 @@ public class RocketsRepository implements RocketsApiManager.onRocketsUpdatedList
         });
 
     }
+    public void updateRocketsSearch(String searchtext,final MutableLiveData<List<RocketJSON>> Rockets) {
+        RocketsDBManager rocketsDBManager = RocketsDBManager.getInstance(mApplication);
+        rocketsDBManager.getRocketsFromDatabaseSearch(searchtext,new RocketsDBManager.rocketDBCallback() {
+            @Override
+            public void onSuccess(List<RocketJSON> rocketsJSONList) {
+                Rockets.postValue(rocketsJSONList);
+            }
+
+            @Override
+            public void onFailure() {
+                Rockets.postValue(new ArrayList<>());
+            }
+        });
+
+    }
     public void updateRocketsInDatabase(List<RocketJSON> Rockets) {
         RocketsDBManager  rocketsDBManager = RocketsDBManager.getInstance(mApplication);
         rocketsDBManager.InsertRocketsToDataBase(Rockets);

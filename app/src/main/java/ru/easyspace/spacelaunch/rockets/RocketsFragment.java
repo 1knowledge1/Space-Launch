@@ -3,9 +3,13 @@ package ru.easyspace.spacelaunch.rockets;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,18 +29,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.easyspace.spacelaunch.R;
-import ru.easyspace.spacelaunch.launches.UpLaunchesFragment;
-import ru.easyspace.spacelaunch.launches.UpLaunchesViewModel;
-import ru.easyspace.spacelaunch.launches.UpcomingLaunch;
 import ru.easyspace.spacelaunch.rockets.rocketLibraryAPI.RocketJSON;
 
 public class RocketsFragment extends Fragment {
     RocketsViewModel mViewModel;
     SwipeRefreshLayout swipeContainer;
-
+    EditText mSearchBar;
+    String savedSearchedText;
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        if(savedInstanceState!=null){
+            savedSearchedText=savedInstanceState.getString("SearchText");
+        }
+        super.onCreate(savedInstanceState);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_rockets, container, false);
     }
     @Override
@@ -52,9 +62,9 @@ public class RocketsFragment extends Fragment {
         mViewModel.getRockets().observe(getViewLifecycleOwner(), new Observer<List<RocketJSON>>() {
             @Override
             public void onChanged(List<RocketJSON> rocketJSON) {
-                if (rocketJSON!= null&&!rocketJSON.isEmpty() ) {
+                if (rocketJSON!= null) {
                     rocketsAdapter.setRockets(rocketJSON);
-                } else {
+                }else {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Ошибка загрузки. Проверьте подключение к сети.",
                             Toast.LENGTH_LONG)
@@ -75,7 +85,26 @@ public class RocketsFragment extends Fragment {
 
             }
         });
+        mSearchBar=(EditText) view.findViewById(R.id.search);
+        mSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String SearchText=s.toString();
+                mViewModel.updateRocketsSearch(SearchText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+            }
+        });
+        mSearchBar.setText(savedSearchedText);
     }
     private class RocketsAdapter extends RecyclerView.Adapter<RocketsFragment.RocketsViewHolder> {
         private List<RocketJSON> mRockets = new ArrayList<>();
@@ -130,5 +159,9 @@ public class RocketsFragment extends Fragment {
             mLastLaunch = itemView.findViewById(R.id.rocket_last_launch_date);
             mImage = itemView.findViewById(R.id.rocket_image);
         }
+    }
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("SearchText",mSearchBar.getText().toString());
     }
 }

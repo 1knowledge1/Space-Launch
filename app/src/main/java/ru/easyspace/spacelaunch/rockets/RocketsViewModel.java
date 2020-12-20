@@ -32,5 +32,6 @@ public class RocketsViewModel extends AndroidViewModel {
     public void updateRocketsfromNetwork(){
         mRepository.updateRocketsfromNetwork(mRockets);
     }
+    public void updateRocketsSearch(String searchtext){mRepository.updateRocketsSearch(searchtext,mRockets);}
 
 }
