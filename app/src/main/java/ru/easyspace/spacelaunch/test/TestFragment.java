@@ -26,25 +26,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.easyspace.spacelaunch.R;
+import ru.easyspace.spacelaunch.StartFragmentListener;
 
 
 public class TestFragment extends Fragment {
 
+    private static final String TEST = "test";
+    private static final String SCORE = "score";
     private TestViewModel testViewModel;
     private SwipeRefreshLayout swipeContainer;
-    private OnStartTestFragmentListener startListener;
+    private StartFragmentListener startListener;
 
-    public interface OnStartTestFragmentListener {
-        void startQuestionFragment(SpaceTest test);
+    public static TestFragment newInstance(String testName, int score) {
+        TestFragment fragment = new TestFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(TEST, testName);
+        bundle.putInt(SCORE, score);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnStartTestFragmentListener) {
-            startListener = (OnStartTestFragmentListener) context;
+        if (context instanceof StartFragmentListener) {
+            startListener = (StartFragmentListener) context;
         } else {
-            throw new ClassCastException(context.toString() + " must implement OnStartTestFragmentListener");
+            throw new ClassCastException(context.toString() + " must implementStartFragmentListener");
         }
     }
 
@@ -80,6 +88,10 @@ public class TestFragment extends Fragment {
 
         testViewModel = new ViewModelProvider(getActivity())
                 .get(TestViewModel.class);
+        Bundle args = getArguments();
+        if (args != null) {
+            testViewModel.insertTestScore(args.getString(TEST), args.getInt(SCORE));
+        }
         testViewModel.refresh();
         testViewModel.getTests().observe(getViewLifecycleOwner(), observer);
 
@@ -101,9 +113,9 @@ public class TestFragment extends Fragment {
     private class TestAdapter extends RecyclerView.Adapter<TestViewHolder> {
 
         private List<SpaceTest> mTests = new ArrayList<>();
-        private OnStartTestFragmentListener startListener;
+        private StartFragmentListener startListener;
 
-        TestAdapter(OnStartTestFragmentListener listener) {
+        TestAdapter(StartFragmentListener listener) {
             startListener = listener;
         }
 
@@ -159,5 +171,3 @@ public class TestFragment extends Fragment {
         }
     }
 }
-
-
