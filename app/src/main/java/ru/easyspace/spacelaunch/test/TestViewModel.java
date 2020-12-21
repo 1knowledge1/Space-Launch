@@ -27,4 +27,8 @@ public class TestViewModel extends AndroidViewModel {
     public void refresh() {
         repo.refresh();
     }
+
+    public void insertTestScore(String testName, int score) {
+        repo.insertTestScore(testName, score);
+    }
 }

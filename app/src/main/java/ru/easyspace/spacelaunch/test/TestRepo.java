@@ -1,6 +1,8 @@
 package ru.easyspace.spacelaunch.test;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,9 +28,11 @@ public class TestRepo {
     }
 
     private FirebaseFirestore db;
+    private SharedPreferences prefs;
 
     public TestRepo(Application application) {
         db = FirebaseFirestore.getInstance();
+        prefs = application.getSharedPreferences("TestResult", Context.MODE_PRIVATE);
     }
 
     public LiveData<List<SpaceTest>> getTests() {
@@ -53,7 +57,15 @@ public class TestRepo {
                     }
                 });
     }
-    
+
+    public void insertTestScore(String testName, int score) {
+        if (score > getTestScore(testName)) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(testName, score);
+            editor.apply();
+        }
+    }
+
     private List<SpaceTest> transform (List<TestPlain> plains) {
         List<SpaceTest> result = new ArrayList<>();
         for (TestPlain testPlain : plains) {
@@ -65,8 +77,13 @@ public class TestRepo {
     }
 
     private SpaceTest map(TestPlain plain) {
+        int score = getTestScore(plain.name);
         return new SpaceTest(plain.name, plain.image, plain.description,
                 plain.success_image, plain.failure_image, plain.success,
-                plain.failure, plain.questions, 0);
+                plain.failure, plain.questions, score);
+    }
+
+    private int getTestScore(String testName) {
+        return prefs.getInt(testName, 0);
     }
 }
