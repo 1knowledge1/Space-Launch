@@ -122,12 +122,42 @@ public class RocketsFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull RocketsViewHolder holder, int position) {
              RocketJSON rocket=mRockets.get(position);
-             holder.mTitle.setText(rocket.launcher_config.name);
-             holder.mFamily.setText(rocket.launcher_config.family);
-             holder.mSerialNumber.setText(rocket.serial_number);
-             holder.mDetails.setText(rocket.details);
-             holder.mFirstLaunch.setText(rocket.first_launch_date);
-             holder.mLastLaunch.setText(rocket.last_launch_date);
+             if(rocket.launcher_config!=null&&rocket.launcher_config.name!=null){
+                holder.mTitle.setText(rocket.launcher_config.name);
+             }
+             else{
+                 holder.mTitle.setText("Unknown name");
+             }
+            if(rocket.launcher_config!=null&&rocket.launcher_config.family!=null) {
+                holder.mFamily.setText(rocket.launcher_config.family);
+            }
+            else{
+                holder.mFamily.setText("Unknown family");
+            }
+            if(rocket.serial_number!=null) {
+                holder.mSerialNumber.setText(rocket.serial_number);
+            }
+            else{
+                holder.mSerialNumber.setText("Unknown serial number");
+            }
+            if(rocket.details!=null) {
+                holder.mDetails.setText(rocket.details);
+            }
+            else{
+                holder.mDetails.setText("Unknown details");
+            }
+            if(rocket.first_launch_date!=null) {
+                holder.mFirstLaunch.setText(rocket.first_launch_date);
+            }
+            else{
+                holder.mFirstLaunch.setText("Unknown first launch");
+            }
+            if(rocket.last_launch_date!=null) {
+                holder.mLastLaunch.setText(rocket.last_launch_date);
+            }
+            else{
+                holder.mLastLaunch.setText("Unknown last launch");
+            }
             Glide.with(getContext())
                     .load(rocket.image_url)
                     .centerCrop()

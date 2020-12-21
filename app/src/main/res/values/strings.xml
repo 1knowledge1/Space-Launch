@@ -20,4 +20,6 @@
     <string name="test_image_description">test_image</string>
     <string name="next">Следующий</string>
     <string name="end_test">Завершить</string>
+    <string name="search">Поиск</string>
+    <string name="notification">Уведомления</string>
 </resources>

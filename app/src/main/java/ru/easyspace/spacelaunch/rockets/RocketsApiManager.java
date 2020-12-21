@@ -28,7 +28,7 @@ public class RocketsApiManager {
         return INSTANCE;
     }
     public interface RocketsApi{
-        @GET("launcher")
+        @GET("launcher/?limit=50")
         Call<WrapperRockets> getRockets();
         @GET("launcher/{id}")
         Call<RocketJSONDetailed> getRocketDetail(@Path("id") int id);
