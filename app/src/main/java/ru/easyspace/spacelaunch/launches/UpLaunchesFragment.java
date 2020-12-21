@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -166,15 +167,7 @@ public class UpLaunchesFragment extends Fragment {
             holder.itemView.setOnClickListener(view -> {
                 startListener.startDetailedLaunchFragment(launch);
             });
-            holder.mNotification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                     RadioButton rdb=(RadioButton)v;
-                     if(rdb.isChecked()){
-                         rdb.setChecked(false);
-                     }
-                }
-            });
+           
         }
 
         @Override
@@ -193,7 +186,7 @@ public class UpLaunchesFragment extends Fragment {
         protected TextView mDate;
         protected TextView mTime;
         protected ImageView mImage;
-        protected RadioButton mNotification;
+
         public UpLaunchesViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.launch_title);
@@ -204,7 +197,7 @@ public class UpLaunchesFragment extends Fragment {
             mDate = itemView.findViewById(R.id.start_date);
             mTime = itemView.findViewById(R.id.start_time);
             mImage = itemView.findViewById(R.id.launch_image);
-            mNotification=itemView.findViewById(R.id.notific);
+
         }
     }
 }
