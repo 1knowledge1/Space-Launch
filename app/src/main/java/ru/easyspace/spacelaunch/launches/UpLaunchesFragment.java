@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -162,6 +164,7 @@ public class UpLaunchesFragment extends Fragment {
             holder.itemView.setOnClickListener(view -> {
                 startListener.startDetailedLaunchFragment(launch);
             });
+           
         }
 
         @Override
@@ -191,6 +194,7 @@ public class UpLaunchesFragment extends Fragment {
             mDate = itemView.findViewById(R.id.start_date);
             mTime = itemView.findViewById(R.id.start_time);
             mImage = itemView.findViewById(R.id.launch_image);
+
         }
     }
 }
