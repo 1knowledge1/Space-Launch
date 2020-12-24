@@ -28,24 +28,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.easyspace.spacelaunch.R;
+import ru.easyspace.spacelaunch.StartFragmentListener;
 
 public class UpLaunchesFragment extends Fragment {
 
     private UpLaunchesViewModel upLaunchesViewModel;
     private SwipeRefreshLayout swipeContainer;
-    private OnStartDetailedLaunchFragmentListener startListener;
-
-    public interface OnStartDetailedLaunchFragmentListener {
-        void startDetailedLaunchFragment(UpcomingLaunch launch);
-    }
+    private StartFragmentListener startListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof OnStartDetailedLaunchFragmentListener) {
-            startListener = (OnStartDetailedLaunchFragmentListener) context;
+        if (context instanceof StartFragmentListener) {
+            startListener = (StartFragmentListener) context;
         } else {
-            throw new ClassCastException(context.toString() + " must implement OnStartFragmentListener");
+            throw new ClassCastException(context.toString() + " must implement StartFragmentListener");
         }
     }
 
@@ -103,9 +100,9 @@ public class UpLaunchesFragment extends Fragment {
     private class UpLaunchesAdapter extends RecyclerView.Adapter<UpLaunchesViewHolder> {
 
         private List<UpcomingLaunch> mLaunches = new ArrayList<>();
-        private OnStartDetailedLaunchFragmentListener startListener;
+        private StartFragmentListener startListener;
 
-        UpLaunchesAdapter(OnStartDetailedLaunchFragmentListener listener) {
+        UpLaunchesAdapter(StartFragmentListener listener) {
             startListener = listener;
         }
 

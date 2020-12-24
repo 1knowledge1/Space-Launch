@@ -14,16 +14,17 @@ import ru.easyspace.spacelaunch.launches.UpcomingLaunch;
 import ru.easyspace.spacelaunch.rockets.RocketsFragment;
 import ru.easyspace.spacelaunch.spacepicture.SpacePictureFragment;
 import ru.easyspace.spacelaunch.test.QuestionFragment;
+import ru.easyspace.spacelaunch.test.ResultFragment;
 import ru.easyspace.spacelaunch.test.SpaceTest;
 import ru.easyspace.spacelaunch.test.TestFragment;
 
-public class MainActivity extends AppCompatActivity implements UpLaunchesFragment.OnStartDetailedLaunchFragmentListener,
-        TestFragment.OnStartTestFragmentListener {
-    private SparseArray<Fragment.SavedState> savedStateSparseArray = new SparseArray<>();
-    int currentSelectItemId;
+
+public class MainActivity extends AppCompatActivity implements StartFragmentListener {
 
     private static final String SAVED_STATE_CONTAINER_KEY = "ContainerKey";
     private static final String SAVED_STATE_CURRENT_TAB_KEY = "CurrentTabKey";
+    private SparseArray<Fragment.SavedState> savedStateSparseArray = new SparseArray<>();
+    int currentSelectItemId;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -110,7 +111,22 @@ public class MainActivity extends AppCompatActivity implements UpLaunchesFragmen
     public void startQuestionFragment(SpaceTest test) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, QuestionFragment.newInstance(test))
-                .addToBackStack(null)
                 .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void startResultFragment(SpaceTest test, int score) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, ResultFragment.newInstance(test, score))
+                .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void returnTestFragment(String testName, int score) {
+        if (testName == null) {
+            createFragment(R.id.page_test, "Test", new TestFragment());
+        } else {
+            createFragment(R.id.page_test, "Test", TestFragment.newInstance(testName, score));
+        }
     }
 }
