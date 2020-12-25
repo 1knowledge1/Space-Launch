@@ -22,4 +22,6 @@
     <string name="end_test">Завершить</string>
     <string name="search">Поиск</string>
     <string name="notification">Уведомления</string>
+    <string name="notific_title">defult notifiction</string>
+    <string name="notific_text">defult notifiction</string>
 </resources>

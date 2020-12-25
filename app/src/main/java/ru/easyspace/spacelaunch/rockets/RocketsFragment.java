@@ -5,14 +5,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.button.MaterialButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,11 +162,14 @@ public class RocketsFragment extends Fragment {
             else{
                 holder.mLastLaunch.setText("Unknown last launch");
             }
-            Glide.with(getContext())
+            if(rocket.image_url!=null){
+                Glide.with(getContext())
                     .load(rocket.image_url)
                     .centerCrop()
                     .placeholder(new ColorDrawable(Color.BLACK))
                     .into(holder.mImage);
+            }else {
+            }
 
         }
 
@@ -179,6 +186,7 @@ public class RocketsFragment extends Fragment {
         protected TextView mLastLaunch;
         protected TextView mFirstLaunch;
         protected ImageView mImage;
+
         public RocketsViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.rocket_title);
@@ -188,6 +196,8 @@ public class RocketsFragment extends Fragment {
             mFirstLaunch= itemView.findViewById(R.id.rocket_first_launch_date);
             mLastLaunch = itemView.findViewById(R.id.rocket_last_launch_date);
             mImage = itemView.findViewById(R.id.rocket_image);
+
+            
         }
     }
     public void onSaveInstanceState(@NonNull Bundle outState) {

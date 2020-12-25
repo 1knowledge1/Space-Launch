@@ -33,6 +33,8 @@ public class UpcomingLaunch implements Parcelable {
     private String mDescription;
     @ColumnInfo(name = "mapImage")
     private String mMapImage;
+    @ColumnInfo(name = "isNotificated")
+    private Boolean mIsNotificated;
 
     public static final Creator<UpcomingLaunch> CREATOR = new Creator<UpcomingLaunch>() {
         @Override
@@ -57,7 +59,9 @@ public class UpcomingLaunch implements Parcelable {
         }
     };
 
-    public UpcomingLaunch() {}
+    public UpcomingLaunch() {
+        mIsNotificated=Boolean.FALSE;
+    }
 
     @Ignore
     public UpcomingLaunch (String title, String rocket, String agency, String pad,
@@ -73,6 +77,7 @@ public class UpcomingLaunch implements Parcelable {
         mImage = image;
         mDescription = description;
         mMapImage = mapImage;
+        mIsNotificated=Boolean.FALSE;
     }
 
     public String getTitle() {
@@ -137,6 +142,13 @@ public class UpcomingLaunch implements Parcelable {
 
     public void setStartTime(String startTime) {
         mStartTime = startTime;
+    }
+
+    public void setIsNotificated(Boolean isNotificated){
+        mIsNotificated=isNotificated;
+    }
+    public Boolean getIsNotificated(){
+        return mIsNotificated;
     }
 
     public String getDescription() {
