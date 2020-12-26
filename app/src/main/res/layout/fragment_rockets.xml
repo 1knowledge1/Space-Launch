@@ -3,24 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray">
 
-    >
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="@string/search"
-        android:ems="10" />
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/rockets_swipe_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/search">
+        android:padding="8dp"
+        android:ems="10"
+        android:layout_margin="8dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rockets_recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/rockets_swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search" >
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rockets_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </RelativeLayout>
