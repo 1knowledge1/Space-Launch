@@ -1,94 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp" >
 
-    <ImageView
-        android:id="@+id/launch_image"
-        android:layout_width="135dp"
-        android:layout_height="200dp"
-        android:layout_alignParentStart="true"
-        tools:background="@color/black"
-        android:contentDescription="@string/image_description" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/launch_image"
-        android:orientation="vertical">
+        android:padding="8dp" >
 
-        <TextView
-            android:id="@+id/launch_title"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view_image"
+            android:layout_width="135dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="16dp"
+            android:layout_alignParentStart="true" >
+
+            <ImageView
+                android:id="@+id/launch_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:background="@color/black"
+                android:contentDescription="@string/image_description" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="Falcon Heavy 9 Bocks 5" />
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/card_view_image"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/rocket_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="Falcon 9 Block 5" />
-
-        <TextView
-            android:id="@+id/agency_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="SpaceX" />
-
-        <TextView
-            android:id="@+id/pad_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="SLC-40" />
-
-        <TextView
-            android:id="@+id/pad_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="USA" />
-
-        <TextView
-            android:id="@+id/start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="20 Oct 2020" />
-
-        <TextView
-            android:id="@+id/start_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textSize="14sp"
-            tools:text="19:08:42" />
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/toggleButtonGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/notific"
+            <TextView
+                android:id="@+id/launch_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_notification"
-                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                app:shapeAppearance="@style/Rounded"
-                />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-    </LinearLayout>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Falcon Heavy 9 Bocks 5" />
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/rocket_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="Falcon 9 Block 5" />
+
+            <TextView
+                android:id="@+id/agency_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="SpaceX" />
+
+            <TextView
+                android:id="@+id/pad_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="SLC-40" />
+
+            <TextView
+                android:id="@+id/pad_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="USA" />
+
+            <TextView
+                android:id="@+id/start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="20 Oct 2020" />
+
+            <TextView
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                tools:text="19:08:42" />
+          
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggleButtonGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+              
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/notific"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_notification"
+                    style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                    app:shapeAppearance="@style/Rounded" />
+              
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

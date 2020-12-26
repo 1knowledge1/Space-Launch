@@ -3,48 +3,65 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/dateTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="date"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_centerHorizontal="true" />
+                tools:text="date" />
 
-            <ImageView
-                android:id="@+id/spaceImageview"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_space_image"
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
-                android:scaleType="fitCenter"
-                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="16dp"
                 android:layout_below="@id/dateTextview"
-                android:contentDescription="@string/space_pic_content_description"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:id="@+id/spaceImageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/space_pic_content_description"
+                    tools:background="@color/black"/>
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/titleTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/spaceImageview"
+                android:layout_below="@id/card_view_space_image"
                 tools:text="title" />
 
             <TextView
                 android:id="@+id/copyrightTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:layout_marginBottom="8dp"
+                android:textSize="12sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/titleTextview"
                 tools:text="copyright" />
