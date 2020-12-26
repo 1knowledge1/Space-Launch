@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
     private static final String SAVED_STATE_CONTAINER_KEY = "ContainerKey";
     private static final String SAVED_STATE_CURRENT_TAB_KEY = "CurrentTabKey";
     private SparseArray<Fragment.SavedState> savedStateSparseArray = new SparseArray<>();
-    int currentSelectItemId;
+    private int currentSelectItemId;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            clearBackStack();
             switch (item.getItemId()) {
                 case R.id.page_test:
                     swapFragments(R.id.page_test, "Test", new TestFragment());
@@ -89,6 +90,12 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
         } else {
             navigation.setSelectedItemId(R.id.page_launches);
             currentSelectItemId = R.id.page_launches;
+        }
+    }
+
+    private void clearBackStack() {
+        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+            getSupportFragmentManager().popBackStack();
         }
     }
 
