@@ -1,6 +1,9 @@
 package ru.easyspace.spacelaunch.launches;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,12 +26,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ru.easyspace.spacelaunch.R;
 import ru.easyspace.spacelaunch.StartFragmentListener;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class UpLaunchesFragment extends Fragment {
 
@@ -67,6 +79,7 @@ public class UpLaunchesFragment extends Fragment {
             @Override
             public void onChanged(List<UpcomingLaunch> upcomingLaunches) {
                 if (upcomingLaunches != null ) {
+                   // upcomingLaunches.add(0,new UpcomingLaunch());
                     adapter.setLaunches(upcomingLaunches);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -107,6 +120,7 @@ public class UpLaunchesFragment extends Fragment {
         }
 
         public void setLaunches(List<UpcomingLaunch> launches) {
+
             mLaunches = launches;
             notifyDataSetChanged();
         }
@@ -164,7 +178,59 @@ public class UpLaunchesFragment extends Fragment {
             holder.itemView.setOnClickListener(view -> {
                 startListener.startDetailedLaunchFragment(launch);
             });
-           
+            holder.mNotificationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!launch.getIsNotificated()) {
+                        Calendar calendar = Calendar.getInstance();
+                        if(position==0) {
+                            calendar.add(Calendar.SECOND, 5);
+                        }else{
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss' UTC'", Locale.US);
+                            try {
+                                Date  dt_strt=dateFormat.parse(launch.getStartDate());
+                                Date  tm_strt=timeFormat.parse(launch.getStartTime());
+                                calendar.setTime(dt_strt);
+                                Calendar calendar_time= Calendar.getInstance();
+                                calendar_time.setTime(tm_strt);
+                                calendar.set(Calendar.HOUR_OF_DAY,calendar_time.get(Calendar.HOUR_OF_DAY));
+                                calendar.set(Calendar.MINUTE,calendar_time.get(Calendar.MINUTE));
+                                calendar.set(Calendar.SECOND,calendar_time.get(Calendar.SECOND));
+                            } catch (ParseException e) {
+
+                                calendar.add(Calendar.SECOND, 5);
+                            }
+                        }
+                        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                        Intent intent = new Intent(getActivity(), UpLaunchesNotifictionReciever.class);
+                        intent.putExtra("Title",launch.getTitle());
+                        intent.putExtra("Text",launch.getLocation());
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), position,
+                                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches),position,Boolean.TRUE);
+
+                    }else{
+                        Intent intent = new Intent(getActivity(), UpLaunchesNotifictionReciever.class);
+                        PendingIntent sender = PendingIntent.getBroadcast(getActivity(), position,
+                                intent, 0);
+                        AlarmManager  am= (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                        am.cancel(sender);
+                        sender.cancel();
+                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches),position,Boolean.FALSE);
+                    }
+
+
+                }
+
+            });
+
+            if(launch.getIsNotificated()){
+                holder.mNotification.check(R.id.notific);
+            }else{
+                holder.mNotification.uncheck(R.id.notific);
+            }
         }
 
         @Override
@@ -183,7 +249,8 @@ public class UpLaunchesFragment extends Fragment {
         protected TextView mDate;
         protected TextView mTime;
         protected ImageView mImage;
-
+        protected MaterialButtonToggleGroup mNotification;
+        protected  MaterialButton mNotificationButton;
         public UpLaunchesViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.launch_title);
@@ -194,7 +261,8 @@ public class UpLaunchesFragment extends Fragment {
             mDate = itemView.findViewById(R.id.start_date);
             mTime = itemView.findViewById(R.id.start_time);
             mImage = itemView.findViewById(R.id.launch_image);
-
+            mNotification=itemView.findViewById(R.id.toggleButtonGroup);
+            mNotificationButton=itemView.findViewById(R.id.notific);
         }
     }
 }

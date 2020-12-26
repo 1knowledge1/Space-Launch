@@ -56,9 +56,22 @@ public class UpLaunchesRepo {
             public void onResponse(Call<WrapperUpcomingLaunches> call, Response<WrapperUpcomingLaunches> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<UpcomingLaunch> launches = transform(response.body());
-                    mLaunches.postValue(launches);
-                    delete();
-                    insert(launches);
+
+                    RoomDatabase.getExecutor().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            for(UpcomingLaunch launch: launches){
+                                if(launchDAO.getLaunch(launch.getTitle())==null){
+                                    launchDAO.insert(launch);
+                                }else{
+                                    upadteDatabaseLaunch(launch);
+                                }
+                            }
+                            List<UpcomingLaunch> launches_db=launchDAO.getLaunches();
+                            mLaunches.postValue(launches_db);
+                        }
+                    });
+
                     Log.d("Network", "Response code " + response.code());
                 } else {
                     Log.e("Network", "Response code " + response.code());
@@ -73,7 +86,11 @@ public class UpLaunchesRepo {
             }
         });
     }
-
+    public void updateNotifiction(List<UpcomingLaunch> launches,int position,Boolean notificted) {
+               launches.get(position).setIsNotificated(notificted);
+               insert(launches);
+               update(launches);
+    }
     public void getFromDatabase(onReadDatabaseListener listener) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(new Runnable() {
@@ -177,11 +194,20 @@ public class UpLaunchesRepo {
             image = launchPlain.image;
         }
 
+
         return new UpcomingLaunch(title, rocket, agency, pad,
                 location, startDate, startTime, image, description,
                 mapImage);
     }
+    public void upadteDatabaseLaunch(UpcomingLaunch launch){
+        RoomDatabase.getExecutor().execute(() -> {
 
+                launchDAO.update(launch.getTitle(),launch.getRocket(),launch.getAgency(),launch.getPad(),
+                        launch.getLocation(),launch.getStartDate(),launch.getStartTime(),launch.getImage(),
+                        launch.getDescription(),launch.getMapImage());
+
+        });
+    }
     public interface onReadDatabaseListener {
         void onReadAll(List<UpcomingLaunch> launches);
     }
