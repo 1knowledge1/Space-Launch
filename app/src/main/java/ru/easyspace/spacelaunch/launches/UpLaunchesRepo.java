@@ -61,7 +61,8 @@ public class UpLaunchesRepo {
                         @Override
                         public void run() {
                             for(UpcomingLaunch launch: launches){
-                                if(launchDAO.getLaunch(launch.getTitle())==null){
+                                List<UpcomingLaunch> launchUpToDate=launchDAO.getLaunch(launch.getTitle());
+                                if(launchUpToDate==null||launchUpToDate.isEmpty()){
                                     launchDAO.insert(launch);
                                 }else{
                                     upadteDatabaseLaunch(launch);
