@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -65,11 +66,36 @@ public class UpLaunchesRepo {
                                 if(launchUpToDate==null||launchUpToDate.isEmpty()){
                                     launchDAO.insert(launch);
                                 }else{
-                                    upadteDatabaseLaunch(launch);
+                                       upadteDatabaseLaunch(launch);
                                 }
                             }
                             List<UpcomingLaunch> launches_db=launchDAO.getLaunches();
-                            mLaunches.postValue(launches_db);
+                            List<UpcomingLaunch> launches_db_updted=new ArrayList<>();
+                            for(UpcomingLaunch launch: launches_db){
+                                    Calendar calendar_current=Calendar.getInstance();
+                                    Calendar calendar=Calendar.getInstance();
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+                                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss' UTC'", Locale.US);
+                                    try {
+                                        Date  dt_strt=dateFormat.parse(launch.getStartDate());
+                                        Date  tm_strt=timeFormat.parse(launch.getStartTime());
+                                        calendar.setTime(dt_strt);
+                                        Calendar calendar_time= Calendar.getInstance();
+                                        calendar_time.setTime(tm_strt);
+                                        calendar.set(Calendar.HOUR_OF_DAY,calendar_time.get(Calendar.HOUR_OF_DAY));
+                                        calendar.set(Calendar.MINUTE,calendar_time.get(Calendar.MINUTE));
+                                        calendar.set(Calendar.SECOND,calendar_time.get(Calendar.SECOND));
+                                     } catch (ParseException e) {
+
+                                     }
+                                    if(calendar_current.after(calendar)){
+                                        launchDAO.delete(launch.getTitle());
+                                    }
+                                    else{
+                                        launches_db_updted.add(launch);
+                                    }
+                            }
+                            mLaunches.postValue(launches_db_updted);
                         }
                     });
 
