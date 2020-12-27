@@ -17,6 +17,8 @@ public interface UpLaunchDAO {
     void insert(UpcomingLaunch launch);
     @Query("DELETE FROM up_launch_table")
     void deleteAll();
+    @Query("DELETE FROM up_launch_table WHERE title= :title")
+    void delete(String title);
     @Query("UPDATE up_launch_table  " +
             "SET  startDate= :startDate, startTime= :startTime" +
             ", rocket= :rocket, image= :image, description= :desription" +
