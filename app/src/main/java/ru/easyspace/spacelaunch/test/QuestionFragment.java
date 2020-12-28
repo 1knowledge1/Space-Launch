@@ -29,6 +29,9 @@ import ru.easyspace.spacelaunch.StartFragmentListener;
 public class QuestionFragment extends Fragment {
 
     private static final String TEST = "test";
+    private static final String CURRENT_QUESTION = "currentQuestion";
+    private static final String SCORE = "score";
+    private static final String SAVED_ANSWER_ID = "answerID";
 
     public static QuestionFragment newInstance(SpaceTest test) {
         QuestionFragment fragment = new QuestionFragment();
@@ -44,9 +47,10 @@ public class QuestionFragment extends Fragment {
     private List<Button> answers = new ArrayList<>(4);
     private List<Integer> colors = new ArrayList<>(4);
     private Button next;
-    private int currentQuestion;
+    private int currentQuestion = 0;
     private int maxQuestionNumber;
     private int correctAnswerId;
+    private int savedAnswerId = -1;
     private int score = 0;
     private StartFragmentListener startListener;
 
@@ -75,17 +79,11 @@ public class QuestionFragment extends Fragment {
         answers.add((Button) view.findViewById(R.id.answer_2));
         answers.add((Button) view.findViewById(R.id.answer_3));
         answers.add((Button) view.findViewById(R.id.answer_4));
+        next = (Button) view.findViewById(R.id.next_question);
         for (int i = 0; i < answers.size(); i++) {
             colors.add(Color.GRAY);
         }
-        next = (Button) view.findViewById(R.id.next_question);
-        Bundle args = getArguments();
-        if (args != null) {
-            test = args.getParcelable(TEST);
-            maxQuestionNumber = test.getQuestions().size();
-            currentQuestion = 0;
-            initQuestion(test.getQuestions(), currentQuestion);
-        }
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,17 +96,21 @@ public class QuestionFragment extends Fragment {
                 } else {
                     score++;
                 }
+                savedAnswerId = v.getId();
                 next.setVisibility(View.VISIBLE);
-                currentQuestion++;
             }
         };
+
         for (int i = 0; i < answers.size(); i++) {
             answers.get(i).setOnClickListener(listener);
         }
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentQuestion++;
                 next.setVisibility(View.INVISIBLE);
+                savedAnswerId = -1;
                 if (currentQuestion < maxQuestionNumber) {
                     initQuestion(test.getQuestions(), currentQuestion);
                 } else {
@@ -116,6 +118,19 @@ public class QuestionFragment extends Fragment {
                 }
             }
         });
+
+        if (savedInstanceState != null) {
+            currentQuestion = savedInstanceState.getInt(CURRENT_QUESTION);
+            score = savedInstanceState.getInt(SCORE);
+            savedAnswerId = savedInstanceState.getInt(SAVED_ANSWER_ID);
+        }
+
+        Bundle args = getArguments();
+        if (args != null) {
+            test = args.getParcelable(TEST);
+            maxQuestionNumber = test.getQuestions().size();
+            initQuestion(test.getQuestions(), currentQuestion);
+        }
     }
 
     private void initQuestion(List<Question> questions, int questionNumber) {
@@ -130,20 +145,39 @@ public class QuestionFragment extends Fragment {
         answers.get(1).setText(question.getAnswer2());
         answers.get(2).setText(question.getAnswer3());
         answers.get(3).setText(question.getAnswer4());
-        TypedValue typedValue = new TypedValue();
-        TypedArray a = getContext().obtainStyledAttributes(typedValue.data, new int[] {R.attr.colorPrimary});
-        int color = a.getColor(0, 0);
-        a.recycle();
-        for (int i = 0; i < answers.size(); i++) {
-            answers.get(i).setBackgroundColor(color);
-            answers.get(i).setClickable(true);
-            colors.set(i, Color.GRAY);
-        }
         setCorrectAnswerColor(question);
+        if (savedAnswerId == -1) {
+            TypedValue typedValue = new TypedValue();
+            TypedArray a = getContext().obtainStyledAttributes(typedValue.data, new int[] {R.attr.colorPrimary});
+            int color = a.getColor(0, 0);
+            a.recycle();
+            for (int i = 0; i < answers.size(); i++) {
+                answers.get(i).setBackgroundColor(color);
+                answers.get(i).setClickable(true);
+            }
+        } else {
+            setButtonsAnswered();
+        }
+    }
+
+    private void setButtonsAnswered() {
+        for (int i = 0; i < answers.size(); i++) {
+            answers.get(i).setBackgroundColor(colors.get(i));
+            answers.get(i).setClickable(false);
+            if (correctAnswerId != savedAnswerId) {
+                if (savedAnswerId == answers.get(i).getId()) {
+                    answers.get(i).setBackgroundColor(Color.RED);
+                }
+            }
+        }
+        next.setVisibility(View.VISIBLE);
     }
 
     private void setCorrectAnswerColor(Question question) {
         String correct = question.getRight();
+        for (int i = 0; i < answers.size(); i++) {
+            colors.set(i, Color.GRAY);
+        }
         if (correct.equals(question.getAnswer1())) {
             correctAnswerId = R.id.answer_1;
             colors.set(0, Color.GREEN);
@@ -157,6 +191,14 @@ public class QuestionFragment extends Fragment {
             correctAnswerId = R.id.answer_4;
             colors.set(3, Color.GREEN);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(CURRENT_QUESTION, currentQuestion);
+        outState.putInt(SCORE, score);
+        outState.putInt(SAVED_ANSWER_ID, savedAnswerId);
     }
 
     @Override

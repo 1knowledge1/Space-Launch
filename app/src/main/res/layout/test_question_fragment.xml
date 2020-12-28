@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:textSize="16sp"
             tools:text="Question text here, question text here?\n\n" />
 
