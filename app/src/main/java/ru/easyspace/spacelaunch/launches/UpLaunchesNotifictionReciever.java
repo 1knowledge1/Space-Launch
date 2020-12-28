@@ -14,10 +14,11 @@ import androidx.core.app.NotificationCompat;
 import ru.easyspace.spacelaunch.R;
 
 public class UpLaunchesNotifictionReciever extends BroadcastReceiver {
+    public static final String CHANNEL_LAUNCHES = "launches";
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,CHANNEL_LAUNCHES);
         Uri sound_uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSmallIcon(R.drawable.ic_page_launches)
                 .setContentTitle(intent.getStringExtra("Title"))
@@ -26,6 +27,6 @@ public class UpLaunchesNotifictionReciever extends BroadcastReceiver {
                 .setSound(sound_uri)
                 .setAutoCancel(true);
      
-        nm.notify(1,builder.build());
+        nm.notify(intent.getIntExtra("ID",0),builder.build());
      }
 }
