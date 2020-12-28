@@ -2,11 +2,14 @@ package ru.easyspace.spacelaunch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 import ru.easyspace.spacelaunch.launches.DetailedUpLaunchFragment;
 import ru.easyspace.spacelaunch.launches.UpLaunchesFragment;
@@ -23,15 +26,19 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
 
     private static final String SAVED_STATE_CONTAINER_KEY = "ContainerKey";
     private static final String SAVED_STATE_CURRENT_TAB_KEY = "CurrentTabKey";
+    private static final String DETAILED_LAUNCH_FRAGMENT = "DetailedLaunchFragment";
     private SparseArray<Fragment.SavedState> savedStateSparseArray = new SparseArray<>();
     private int currentSelectItemId;
+    private boolean isDetailedLaunchDisplayed = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            clearBackStack();
+            if (isDetailedLaunchDisplayed) {
+                returnFromDetailedLaunch();
+            }
             switch (item.getItemId()) {
                 case R.id.page_test:
                     swapFragments(R.id.page_test, "Test", new TestFragment());
@@ -78,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (savedInstanceState != null) {
@@ -87,15 +96,42 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
                 savedStateSparseArray = savedState;
             }
             currentSelectItemId = savedInstanceState.getInt(SAVED_STATE_CURRENT_TAB_KEY);
+            isDetailedLaunchDisplayed = savedInstanceState.getBoolean(DETAILED_LAUNCH_FRAGMENT);
         } else {
             navigation.setSelectedItemId(R.id.page_launches);
             currentSelectItemId = R.id.page_launches;
         }
+        setToolbarBackButton(isDetailedLaunchDisplayed);
     }
 
-    private void clearBackStack() {
-        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
-            getSupportFragmentManager().popBackStack();
+    private void returnFromDetailedLaunch() {
+        isDetailedLaunchDisplayed = false;
+        setToolbarBackButton(false);
+        getSupportFragmentManager().popBackStack();
+    }
+
+    private void setToolbarBackButton(boolean isToolbarBackEnabled) {
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(isToolbarBackEnabled);
+        getSupportActionBar().setDisplayShowHomeEnabled(isToolbarBackEnabled);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (isDetailedLaunchDisplayed) {
+                returnFromDetailedLaunch();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isDetailedLaunchDisplayed) {
+            returnFromDetailedLaunch();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -104,10 +140,13 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
         super.onSaveInstanceState(outState);
         outState.putSparseParcelableArray(SAVED_STATE_CONTAINER_KEY, savedStateSparseArray);
         outState.putInt(SAVED_STATE_CURRENT_TAB_KEY, currentSelectItemId);
+        outState.putBoolean(DETAILED_LAUNCH_FRAGMENT, isDetailedLaunchDisplayed);
     }
 
     @Override
     public void startDetailedLaunchFragment(UpcomingLaunch launch) {
+        isDetailedLaunchDisplayed = true;
+        setToolbarBackButton(true);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, DetailedUpLaunchFragment.newInstance(launch))
                 .addToBackStack(null)
