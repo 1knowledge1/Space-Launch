@@ -28,6 +28,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ import ru.easyspace.spacelaunch.rockets.rocketLibraryAPI.RocketJSON;
 public class RocketsFragment extends Fragment {
     RocketsViewModel mViewModel;
     SwipeRefreshLayout swipeContainer;
-    EditText mSearchBar;
+    TextInputEditText mSearchBar;
     String savedSearchedText;
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -89,7 +90,7 @@ public class RocketsFragment extends Fragment {
 
             }
         });
-        mSearchBar=(EditText) view.findViewById(R.id.search);
+        mSearchBar=(TextInputEditText) view.findViewById(R.id.search);
         mSearchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
