@@ -77,7 +77,7 @@ public class UpcomingLaunch implements Parcelable {
         mImage = image;
         mDescription = description;
         mMapImage = mapImage;
-        mIsNotificated=Boolean.FALSE;
+        mIsNotificated = Boolean.FALSE;
     }
 
     public String getTitle() {
@@ -145,8 +145,9 @@ public class UpcomingLaunch implements Parcelable {
     }
 
     public void setIsNotificated(Boolean isNotificated){
-        mIsNotificated=isNotificated;
+        mIsNotificated = isNotificated;
     }
+
     public Boolean getIsNotificated(){
         return mIsNotificated;
     }

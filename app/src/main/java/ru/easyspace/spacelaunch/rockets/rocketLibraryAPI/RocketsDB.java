@@ -6,25 +6,25 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "rockets_table")
-
 public class RocketsDB {
-    public RocketsDB(RocketJSON Rocket){
-        id=Rocket.id;
-        url=Rocket.url;
-        flightProven=Rocket.flight_proven;
-        serialNumber=Rocket.serial_number;
-        status=Rocket.status;
-        details=Rocket.details;
-        imageUrl=Rocket.image_url;
-        flights=Rocket.flights;
-        lastLaunchDate=Rocket.last_launch_date;
-        firstLaunchDate=Rocket.first_launch_date;
-        Rname=Rocket.launcher_config.name;
-        Family=Rocket.launcher_config.family;
-    }
-    public RocketsDB(){
 
+    public RocketsDB(RocketJSON Rocket){
+        id = Rocket.id;
+        url = Rocket.url;
+        flightProven = Rocket.flight_proven;
+        serialNumber = Rocket.serial_number;
+        status = Rocket.status;
+        details = Rocket.details;
+        imageUrl = Rocket.image_url;
+        flights = Rocket.flights;
+        lastLaunchDate = Rocket.last_launch_date;
+        firstLaunchDate = Rocket.first_launch_date;
+        Rname = Rocket.launcher_config.name;
+        Family = Rocket.launcher_config.family;
     }
+
+    public RocketsDB() {}
+
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
