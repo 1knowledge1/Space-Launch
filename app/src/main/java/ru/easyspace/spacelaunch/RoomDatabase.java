@@ -15,7 +15,7 @@ import ru.easyspace.spacelaunch.rockets.rocketLibraryAPI.RocketsDB;
 import ru.easyspace.spacelaunch.spacepicture.SpacePictureJSON;
 import ru.easyspace.spacelaunch.spacepicture.database.SpacePictureDAO;
 
-@Database(entities = {UpcomingLaunch.class, SpacePictureJSON.class, RocketsDB.class}, version = 1, exportSchema = false)
+@Database(entities = {UpcomingLaunch.class, SpacePictureJSON.class, RocketsDB.class}, version = 2, exportSchema = false)
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     public abstract UpLaunchDAO upLaunchDAO();
@@ -36,6 +36,7 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             RoomDatabase.class, "database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
