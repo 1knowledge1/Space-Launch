@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools" >
@@ -15,19 +16,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <ImageView
-                android:id="@+id/launch_detail_image"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_detailed_image"
                 android:layout_width="150dp"
                 android:layout_height="250dp"
-                android:layout_alignParentStart="true"
-                tools:background="@color/black"
-                android:contentDescription="@string/image_description" />
+                app:cardCornerRadius="16dp"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:id="@+id/launch_detail_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:background="@color/black"
+                    android:contentDescription="@string/image_description" />
+
+            </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_toEndOf="@+id/launch_detail_image"
+                android:layout_toEndOf="@+id/card_view_detailed_image"
                 android:orientation="vertical">
 
                 <TextView
@@ -86,13 +95,6 @@
                     android:textSize="14sp"
                     tools:text="19:08:42" />
 
-                <Button
-                    android:enabled="false"
-                    android:id="@+id/detail_watch_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/watch_button" />
-
             </LinearLayout>
 
         </RelativeLayout>
@@ -117,14 +119,21 @@
             android:textSize="24sp"
             android:text="@string/launch_detail_location"/>
 
-        <ImageView
-            android:id="@+id/launch_detail_location_image"
+        <androidx.cardview.widget.CardView
             android:layout_width="350dp"
             android:layout_height="250dp"
-            android:layout_gravity="center"
+            app:cardCornerRadius="16dp"
             android:layout_marginTop="8dp"
-            android:background="@color/black"
-            android:contentDescription="@string/map_description" />
+            android:layout_gravity="center" >
+
+            <ImageView
+                android:id="@+id/launch_detail_location_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:contentDescription="@string/map_description" />
+
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

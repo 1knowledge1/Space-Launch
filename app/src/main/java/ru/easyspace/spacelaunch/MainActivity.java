@@ -3,6 +3,7 @@ package ru.easyspace.spacelaunch;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.MenuItem;
@@ -23,14 +24,19 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
 
     private static final String SAVED_STATE_CONTAINER_KEY = "ContainerKey";
     private static final String SAVED_STATE_CURRENT_TAB_KEY = "CurrentTabKey";
+    private static final String DETAILED_LAUNCH_FRAGMENT = "DetailedLaunchFragment";
     private SparseArray<Fragment.SavedState> savedStateSparseArray = new SparseArray<>();
-    int currentSelectItemId;
+    private int currentSelectItemId;
+    private boolean isDetailedLaunchDisplayed = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            if (isDetailedLaunchDisplayed) {
+                returnFromDetailedLaunch();
+            }
             switch (item.getItemId()) {
                 case R.id.page_test:
                     swapFragments(R.id.page_test, "Test", new TestFragment());
@@ -86,9 +92,35 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
                 savedStateSparseArray = savedState;
             }
             currentSelectItemId = savedInstanceState.getInt(SAVED_STATE_CURRENT_TAB_KEY);
+            isDetailedLaunchDisplayed = savedInstanceState.getBoolean(DETAILED_LAUNCH_FRAGMENT);
         } else {
             navigation.setSelectedItemId(R.id.page_launches);
             currentSelectItemId = R.id.page_launches;
+        }
+    }
+
+    private void returnFromDetailedLaunch() {
+        isDetailedLaunchDisplayed = false;
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (isDetailedLaunchDisplayed) {
+                returnFromDetailedLaunch();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isDetailedLaunchDisplayed) {
+            returnFromDetailedLaunch();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -97,10 +129,12 @@ public class MainActivity extends AppCompatActivity implements StartFragmentList
         super.onSaveInstanceState(outState);
         outState.putSparseParcelableArray(SAVED_STATE_CONTAINER_KEY, savedStateSparseArray);
         outState.putInt(SAVED_STATE_CURRENT_TAB_KEY, currentSelectItemId);
+        outState.putBoolean(DETAILED_LAUNCH_FRAGMENT, isDetailedLaunchDisplayed);
     }
 
     @Override
     public void startDetailedLaunchFragment(UpcomingLaunch launch) {
+        isDetailedLaunchDisplayed = true;
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, DetailedUpLaunchFragment.newInstance(launch))
                 .addToBackStack(null)

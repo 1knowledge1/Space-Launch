@@ -5,14 +5,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.button.MaterialButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,21 +39,23 @@ import ru.easyspace.spacelaunch.rockets.rocketLibraryAPI.RocketJSON;
 public class RocketsFragment extends Fragment {
     RocketsViewModel mViewModel;
     SwipeRefreshLayout swipeContainer;
-    EditText mSearchBar;
+    TextInputEditText mSearchBar;
     String savedSearchedText;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             savedSearchedText=savedInstanceState.getString("SearchText");
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_rockets, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -64,7 +71,7 @@ public class RocketsFragment extends Fragment {
             public void onChanged(List<RocketJSON> rocketJSON) {
                 if (rocketJSON!= null) {
                     rocketsAdapter.setRockets(rocketJSON);
-                }else {
+                } else {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Ошибка загрузки. Проверьте подключение к сети.",
                             Toast.LENGTH_LONG)
@@ -75,43 +82,37 @@ public class RocketsFragment extends Fragment {
         });
         if (mViewModel.getRockets().getValue() == null) {
             mViewModel.updateRockets();
-
         }
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 mViewModel.updateRocketsfromNetwork();
-                
-
             }
         });
-        mSearchBar=(EditText) view.findViewById(R.id.search);
+        mSearchBar = (TextInputEditText) view.findViewById(R.id.search);
         mSearchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String SearchText=s.toString();
+                String SearchText = s.toString();
                 mViewModel.updateRocketsSearch(SearchText);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
         mSearchBar.setText(savedSearchedText);
     }
+
     private class RocketsAdapter extends RecyclerView.Adapter<RocketsFragment.RocketsViewHolder> {
         private List<RocketJSON> mRockets = new ArrayList<>();
         public void setRockets(List<RocketJSON> rockets) {
-            mRockets=rockets;
+            mRockets = rockets;
             notifyDataSetChanged();
         }
+
         @NonNull
         @Override
         public RocketsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -121,49 +122,44 @@ public class RocketsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull RocketsViewHolder holder, int position) {
-             RocketJSON rocket=mRockets.get(position);
-             if(rocket.launcher_config!=null&&rocket.launcher_config.name!=null){
+            RocketJSON rocket = mRockets.get(position);
+            if (rocket.launcher_config != null && rocket.launcher_config.name != null) {
                 holder.mTitle.setText(rocket.launcher_config.name);
-             }
-             else{
-                 holder.mTitle.setText("Unknown name");
-             }
-            if(rocket.launcher_config!=null&&rocket.launcher_config.family!=null) {
-                holder.mFamily.setText(rocket.launcher_config.family);
+            } else {
+                holder.mTitle.setText("Unknown name");
             }
-            else{
+            if (rocket.launcher_config != null && rocket.launcher_config.family != null) {
+                holder.mFamily.setText(rocket.launcher_config.family);
+            } else {
                 holder.mFamily.setText("Unknown family");
             }
-            if(rocket.serial_number!=null) {
+            if (rocket.serial_number != null) {
                 holder.mSerialNumber.setText(rocket.serial_number);
-            }
-            else{
+            } else {
                 holder.mSerialNumber.setText("Unknown serial number");
             }
-            if(rocket.details!=null) {
+            if (rocket.details != null) {
                 holder.mDetails.setText(rocket.details);
-            }
-            else{
+            } else {
                 holder.mDetails.setText("Unknown details");
             }
-            if(rocket.first_launch_date!=null) {
+            if (rocket.first_launch_date != null) {
                 holder.mFirstLaunch.setText(rocket.first_launch_date);
-            }
-            else{
+            } else {
                 holder.mFirstLaunch.setText("Unknown first launch");
             }
-            if(rocket.last_launch_date!=null) {
+            if (rocket.last_launch_date != null) {
                 holder.mLastLaunch.setText(rocket.last_launch_date);
-            }
-            else{
+            } else {
                 holder.mLastLaunch.setText("Unknown last launch");
             }
-            Glide.with(getContext())
+            if (rocket.image_url != null) {
+                Glide.with(getContext())
                     .load(rocket.image_url)
                     .centerCrop()
                     .placeholder(new ColorDrawable(Color.BLACK))
                     .into(holder.mImage);
-
+            }
         }
 
         @Override
@@ -171,6 +167,7 @@ public class RocketsFragment extends Fragment {
             return mRockets.size();
         }
     }
+
     static class RocketsViewHolder extends RecyclerView.ViewHolder {
         protected TextView mTitle;
         protected TextView mFamily;
@@ -179,6 +176,7 @@ public class RocketsFragment extends Fragment {
         protected TextView mLastLaunch;
         protected TextView mFirstLaunch;
         protected ImageView mImage;
+
         public RocketsViewHolder(@NonNull View itemView) {
             super(itemView);
             mTitle = itemView.findViewById(R.id.rocket_title);
@@ -190,6 +188,7 @@ public class RocketsFragment extends Fragment {
             mImage = itemView.findViewById(R.id.rocket_image);
         }
     }
+
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("SearchText",mSearchBar.getText().toString());

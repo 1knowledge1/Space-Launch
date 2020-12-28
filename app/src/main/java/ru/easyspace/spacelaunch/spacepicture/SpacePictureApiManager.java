@@ -14,19 +14,20 @@ public class SpacePictureApiManager {
     private static final SpacePictureApiManager INSTANCE = new SpacePictureApiManager();
     private static final String BASE_URL="https://api.nasa.gov/planetary/";
     private static onSpacePictureUpdatedListener mListener;
+
     static SpacePictureApiManager getInstance(onSpacePictureUpdatedListener Listener)
     {
         mListener=Listener;
         return INSTANCE;
     }
 
-    public interface SpacePictureApi{
+    public interface SpacePictureApi {
         @GET("apod?api_key=DEMO_KEY")
         Call<SpacePictureJSON> getPicture();
     }
 
-    public void performSpacePictureRequest(final MutableLiveData<SpacePictureJSON> SpacePicture){
-        Retrofit retrofit=new Retrofit.Builder()
+    public void performSpacePictureRequest(final MutableLiveData<SpacePictureJSON> SpacePicture) {
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -39,7 +40,6 @@ public class SpacePictureApiManager {
                     SpacePicture.postValue(response.body());
                     mListener.onSpacePictureUpdated(response.body());
                 }
-
             }
 
             @Override
@@ -48,7 +48,8 @@ public class SpacePictureApiManager {
             }
         });
     }
-    public  interface onSpacePictureUpdatedListener{
+
+    public  interface onSpacePictureUpdatedListener {
         public void onSpacePictureUpdated(SpacePictureJSON SpacePicture);
     }
 }

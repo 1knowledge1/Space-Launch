@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpaceLaunch</string>
+    <string name="app_name">Space Launch</string>
     <string name="page_test_ic_text">Тесты</string>
     <string name="page_launches_ic_text">Запуски</string>
     <string name="page_space_foto_ic_text">Космофото</string>
@@ -22,4 +22,7 @@
     <string name="end_test">Завершить</string>
     <string name="search">Поиск</string>
     <string name="notification">Уведомления</string>
+    <string name="notific_title">defult notifiction</string>
+    <string name="notific_text">defult notifiction</string>
+    <string name="channel_default_name">Общие уведомления</string>
 </resources>
