@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.Ignore;
+
 @Entity(tableName = "space_picture_table")
 public class SpacePictureJSON {
         @NonNull

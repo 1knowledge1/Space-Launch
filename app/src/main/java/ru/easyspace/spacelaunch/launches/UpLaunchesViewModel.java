@@ -36,8 +36,8 @@ public class UpLaunchesViewModel extends AndroidViewModel {
         });
     }
 
-    public void updateNotifiction(List<UpcomingLaunch> launches,int position,Boolean notificated) {
-            repo.updateNotifiction(launches,position,notificated);
+    public void updateNotifiction(List<UpcomingLaunch> launches, int position, Boolean notificated) {
+        repo.updateNotifiction(launches,position,notificated);
     }
 
     public void refresh() {

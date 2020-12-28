@@ -79,7 +79,6 @@ public class UpLaunchesFragment extends Fragment {
             @Override
             public void onChanged(List<UpcomingLaunch> upcomingLaunches) {
                 if (upcomingLaunches != null ) {
-                   // upcomingLaunches.add(0,new UpcomingLaunch());
                     adapter.setLaunches(upcomingLaunches);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -120,7 +119,6 @@ public class UpLaunchesFragment extends Fragment {
         }
 
         public void setLaunches(List<UpcomingLaunch> launches) {
-
             mLaunches = launches;
             notifyDataSetChanged();
         }
@@ -181,55 +179,51 @@ public class UpLaunchesFragment extends Fragment {
             holder.mNotificationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!launch.getIsNotificated()) {
+                    if (!launch.getIsNotificated()) {
                         Calendar calendar = Calendar.getInstance();
-                        if(position==0||position==1) {
+                        if (position == 0 || position == 1) {
                             calendar.add(Calendar.SECOND, 5);
-                        }else{
+                        } else {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
                             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss' UTC'", Locale.US);
                             try {
-                                Date  dt_strt=dateFormat.parse(launch.getStartDate());
-                                Date  tm_strt=timeFormat.parse(launch.getStartTime());
+                                Date dt_strt = dateFormat.parse(launch.getStartDate());
+                                Date tm_strt = timeFormat.parse(launch.getStartTime());
                                 calendar.setTime(dt_strt);
-                                Calendar calendar_time= Calendar.getInstance();
+                                Calendar calendar_time = Calendar.getInstance();
                                 calendar_time.setTime(tm_strt);
-                                calendar.set(Calendar.HOUR_OF_DAY,calendar_time.get(Calendar.HOUR_OF_DAY));
-                                calendar.set(Calendar.MINUTE,calendar_time.get(Calendar.MINUTE));
-                                calendar.set(Calendar.SECOND,calendar_time.get(Calendar.SECOND));
+                                calendar.set(Calendar.HOUR_OF_DAY, calendar_time.get(Calendar.HOUR_OF_DAY));
+                                calendar.set(Calendar.MINUTE, calendar_time.get(Calendar.MINUTE));
+                                calendar.set(Calendar.SECOND, calendar_time.get(Calendar.SECOND));
                             } catch (ParseException e) {
-
                                 calendar.add(Calendar.SECOND, 5);
                             }
                         }
                         AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                         Intent intent = new Intent(getActivity(), UpLaunchesNotifictionReciever.class);
-                        intent.putExtra("Title",launch.getTitle());
-                        intent.putExtra("Text",launch.getLocation());
-                        intent.putExtra("ID",position);
+                        intent.putExtra("Title", launch.getTitle());
+                        intent.putExtra("Text", launch.getLocation());
+                        intent.putExtra("ID", position);
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), position,
                                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
                         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches),position,Boolean.TRUE);
+                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches), position, Boolean.TRUE);
 
-                    }else{
+                    } else {
                         Intent intent = new Intent(getActivity(), UpLaunchesNotifictionReciever.class);
                         PendingIntent sender = PendingIntent.getBroadcast(getActivity(), position,
                                 intent, 0);
-                        AlarmManager  am= (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                        AlarmManager am = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
                         am.cancel(sender);
                         sender.cancel();
-                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches),position,Boolean.FALSE);
+                        upLaunchesViewModel.updateNotifiction(new ArrayList<>(mLaunches), position, Boolean.FALSE);
                     }
-
-
                 }
-
             });
 
-            if(launch.getIsNotificated()){
+            if (launch.getIsNotificated()) {
                 holder.mNotification.check(R.id.notific);
-            }else{
+            } else {
                 holder.mNotification.uncheck(R.id.notific);
             }
         }
@@ -241,7 +235,6 @@ public class UpLaunchesFragment extends Fragment {
     }
 
     static class UpLaunchesViewHolder extends RecyclerView.ViewHolder {
-
         protected TextView mTitle;
         protected TextView mRocket;
         protected TextView mAgency;
