@@ -183,7 +183,7 @@ public class UpLaunchesFragment extends Fragment {
                 public void onClick(View v) {
                     if(!launch.getIsNotificated()) {
                         Calendar calendar = Calendar.getInstance();
-                        if(position==0) {
+                        if(position==0||position==1) {
                             calendar.add(Calendar.SECOND, 5);
                         }else{
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
@@ -206,6 +206,7 @@ public class UpLaunchesFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), UpLaunchesNotifictionReciever.class);
                         intent.putExtra("Title",launch.getTitle());
                         intent.putExtra("Text",launch.getLocation());
+                        intent.putExtra("ID",position);
                         PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), position,
                                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
                         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
