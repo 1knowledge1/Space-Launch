@@ -24,4 +24,5 @@
     <string name="notification">Уведомления</string>
     <string name="notific_title">defult notifiction</string>
     <string name="notific_text">defult notifiction</string>
+    <string name="channel_default_name">Общие уведомления</string>
 </resources>
