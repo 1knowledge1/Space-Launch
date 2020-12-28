@@ -2,7 +2,6 @@ package ru.easyspace.spacelaunch.rockets.rocketLibraryAPI;
 
 public class RocketLauncherConfigDetailed {
 
-
     public Integer id;
 
     public Integer launch_library_id;

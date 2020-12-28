@@ -3,9 +3,7 @@ package ru.easyspace.spacelaunch.spacepicture;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,25 +14,27 @@ public class SpacePictureDBManager {
     private static final SpacePictureDBManager INSTANCE = new SpacePictureDBManager();
     private static Application mApplication;
     private static SpacePictureDAO mSpacePictureDAO;
+
     static SpacePictureDBManager getInstance(Application application) {
-        mApplication=application;
-        mSpacePictureDAO=RoomDatabase.getINSTANCE(mApplication).spacePictureDAO();
+        mApplication = application;
+        mSpacePictureDAO = RoomDatabase.getINSTANCE(mApplication).spacePictureDAO();
         return INSTANCE;
     }
-    public void  getPictureFromDatabase(pictureDBCallback callback){
+
+    public void  getPictureFromDatabase(pictureDBCallback callback) {
         RoomDatabase.getExecutor().execute(new Runnable() {
             @Override
             public void run() {
                 Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-                List<SpacePictureJSON> SpacePictureList=mSpacePictureDAO.getSpacePicture();
-                if(SpacePictureList==null||SpacePictureList.isEmpty()){
+                List<SpacePictureJSON> SpacePictureList = mSpacePictureDAO.getSpacePicture();
+                if (SpacePictureList == null || SpacePictureList.isEmpty()) {
                        mainThreadHandler.post(new Runnable() {
                            @Override
                            public void run() {
                              callback.onFailure();
                            }
                        });
-                }else{
+                } else {
                     mainThreadHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -44,11 +44,9 @@ public class SpacePictureDBManager {
                 }
             }
         });
-
-
     }
-    public void InsertPictureToDataBase(SpacePictureJSON SpacePicture){
-       
+
+    public void InsertPictureToDataBase(SpacePictureJSON SpacePicture) {
         RoomDatabase.getExecutor().execute(new Runnable() {
             @Override
             public void run() {
@@ -58,7 +56,8 @@ public class SpacePictureDBManager {
         });
 
     }
-    public interface pictureDBCallback{
+
+    public interface pictureDBCallback {
         public void onSuccess(SpacePictureJSON SpacePictureDB);
         public void onFailure();
     }

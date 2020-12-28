@@ -2,22 +2,23 @@ package ru.easyspace.spacelaunch.rockets.rocketLibraryAPI;
 
 
 public class RocketJSON {
-    public RocketJSON(RocketsDB Rocket){
-         id=Rocket.id;
-         url=Rocket.url;
-         flight_proven=Rocket.flightProven;
-         serial_number=Rocket.serialNumber;
-         status=Rocket.status;
-         details=Rocket.details;
-         launcher_config=new RocketLauncherConfig(Rocket);
-         image_url=Rocket.imageUrl;
-         flights=Rocket.flights;
-         last_launch_date=Rocket.lastLaunchDate;
-         first_launch_date=Rocket.firstLaunchDate;
-    }
-    public RocketJSON(){
 
+    public RocketJSON(RocketsDB Rocket) {
+         id = Rocket.id;
+         url = Rocket.url;
+         flight_proven = Rocket.flightProven;
+         serial_number = Rocket.serialNumber;
+         status = Rocket.status;
+         details = Rocket.details;
+         launcher_config = new RocketLauncherConfig(Rocket);
+         image_url = Rocket.imageUrl;
+         flights = Rocket.flights;
+         last_launch_date = Rocket.lastLaunchDate;
+         first_launch_date = Rocket.firstLaunchDate;
     }
+
+    public RocketJSON() {}
+
     public Integer id;
 
     public String url;
